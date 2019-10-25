@@ -14,4 +14,5 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
   res.send('Get logged user');
 });
+
 module.exports = router;
