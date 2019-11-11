@@ -7,7 +7,6 @@ import {
   FILTER_CONTACTS,
   CLEAR_FILTER
 } from '../types';
-import contactContext from './contactContext';
 
 export default (state, action) => {
   switch (action.type) {
@@ -45,8 +44,16 @@ export default (state, action) => {
       return {
         ...state,
         filtered: state.contacts.filter(contact => {
-          const regex = new RegExp(`${action.payload}`, 'gi');
-          return contact.name.match(regex) || contact.email.match(regex);
+          const text_escaped = action.payload.replace(
+            /([.^$|*+?()[]{}\\-])/g,
+            '\\$1'
+          );
+          const regex = new RegExp(`${text_escaped}`, 'gi');
+          return (
+            contact.name.match(regex) ||
+            contact.email.match(regex) ||
+            contact.phone.match(regex)
+          );
         })
       };
     case CLEAR_FILTER:
