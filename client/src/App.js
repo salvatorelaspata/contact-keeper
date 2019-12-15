@@ -1,16 +1,22 @@
-import React, { Fragment } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Navbar from './component/layout/Navbar';
-import Home from './component/pages/Home.js';
-import About from './component/pages/About';
-import Register from './component/auth/Register';
-import Login from './component/auth/Login';
-import Alerts from './component/layout/Alerts';
+import React, { Fragment } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Navbar from "./component/layout/Navbar";
+import Home from "./component/pages/Home.js";
+import About from "./component/pages/About";
+import Register from "./component/auth/Register";
+import Login from "./component/auth/Login";
+import Alerts from "./component/layout/Alerts";
+import PrivateRoute from "./component/routing/PrivateRoute";
 
-import ContactState from './context/contact/ContactState';
-import AuthState from './context/auth/AuthState';
-import AlertState from './context/alert/AlertState';
-import './App.css';
+import ContactState from "./context/contact/ContactState";
+import AuthState from "./context/auth/AuthState";
+import AlertState from "./context/alert/AlertState";
+import setAuthToken from "./util/setAuthToken";
+import "./App.css";
+
+if (localStorage.token) {
+  setAuthToken(localStorage.token);
+}
 
 const App = () => {
   return (
@@ -20,13 +26,13 @@ const App = () => {
           <Router>
             <Fragment>
               <Navbar />
-              <div className="container">
+              <div className='container'>
                 <Alerts />
                 <Switch>
-                  <Route exact path="/" component={Home} />
-                  <Route exact path="/about" component={About} />
-                  <Route exact path="/register" component={Register} />
-                  <Route exact path="/login" component={Login} />
+                  <PrivateRoute exact path='/' component={Home} />
+                  <Route exact path='/about' component={About} />
+                  <Route exact path='/register' component={Register} />
+                  <Route exact path='/login' component={Login} />
                 </Switch>
               </div>
             </Fragment>
